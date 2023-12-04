@@ -30,7 +30,7 @@ Since openZFS v2.2 the default value is 16k, while Proxmox 8.1 still uses 8k as 
 
 Now with that technical stuff out of the way, let's look at real-life examples.
 
-## Dataset examples
+## Dataset example
 Let's look at an example of a dataset with the default recordsize of 128k and how that would work. We assume that we want to store a file 128k in size (after compression).
 
 For a 3-disk wide RAIDZ1, the total stripe width is 3.
