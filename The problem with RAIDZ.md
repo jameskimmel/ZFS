@@ -1,10 +1,10 @@
 # The problem with RAIDZ or why you probably won't get the storage efficiency you think you will get.
-As a ZFS rookie, I struggled a fair bit to find out what settings I should use for my Proxmox hypervisor. Hopefully this could help other ZFS rookies. 
+As a ZFS rookie, I struggled a fair bit to find out what settings I should use for my Proxmox hypervisor. Hopefully, this could help other ZFS rookies. 
 This text focuses on Proxmox, but it generally applies to all ZFS systems. 
 
 ## TLDR
 RAIDZ is only great for sequential reads and writes of big files. An example of that would be a fileserver that mostly hosts big files. 
-For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get and also perform bad. 
+For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get and also will perform badly. 
 
 ## Introduction and glossary
 Before we start, we have to learn about some ZFS glossary. These are important to understand the examples later on.
@@ -39,7 +39,7 @@ One stripe has 2 data blocks and 1 parity block. Each is 4k in size.
 So one stripe has 8k data blocks and a 4k parity block.  
 To store a 128k file, we need 128k / 4k = 32 data blocks.  
 To store 32 data blocks, we need 32 data blocks / 2 data blocks per stripe = 16 stripes.   
-Or you could also say, to store a 128k file, we need 128k / 8k data blocks = 16 stripes.  
+Or you could also say, that to store a 128k file, we need 128k / 8k data blocks = 16 stripes.  
 Each of these stripes consists of two 4k data blocks and a 4k parity block.  
 In total, we store 128k data blocks (16 stripes * 8k data blocks) and 64k parity blocks (16 stripes * 4k parity).  
 Data blocks + parity blocks = total blocks  
@@ -71,7 +71,7 @@ We wrote 8k in blocks to store a 4k file.
 4k / 8k = 50% storage efficiency.  
 
 This is the same storage efficiency we would expect from a mirror.
-It does't apply to you, if you have a 3-wide RAIDZ1 and only write files where the size is a multiple of 8k. For huge files like pictures, movies, and songs, the efficiency loss for not being exactly a multiple of 8k, the loss gets negligible.
+It doesn't apply to you, if you have a 3-wide RAIDZ1 and only write files where the size is a multiple of 8k. For huge files like pictures, movies, and songs, the efficiency loss for not being exactly a multiple of 8k, the loss gets negligible.
 
 
 
