@@ -112,7 +112,7 @@ The first stripe also has one 4k block for parity.
 The second stripe has one 4k data block.  
 The second stripe also has one 4k block for parity.  
 In total we have four 4k data blocks and two 4k parity blocks. 
-That gets us to 24k in total to store 16k. 
+That gets us to 24k in total to store 16k.  
 Storage efficiency is 66%. 
 We would have naturally expected a storage efficiency of 75%!  
 
