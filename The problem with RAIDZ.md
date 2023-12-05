@@ -85,6 +85,9 @@ For MySQL or MariaDB, this would be 16k. But because you can't predict compressi
 A larger volblocksize is good mostly sequential workloads and can gain compression efficiency.  
 Smaller volblocksize is good for random workloads, has less IO amplification, less fragmentation, but will use more metadata and have worse space efficiency.  
 
+For the following examples, we assume ashift = 12 or 4k, because that is the default for modern drives. 
+We look at the different volblocksizes and how they behave on different pools. 
+
 ### volblocksize 8k
 This is the proxmox default size.  
 
@@ -92,12 +95,28 @@ This is the proxmox default size.
 This is the default size for openZFS since 2.2.  
 
 #### RAIDZ1 with 3 drives
+With 3 drives, we get a stripe 3 drives wide.  
+Each stripe has four two 4k data blocks and one 4k parity block.  
+For a volblock of 16k, we need two stripes (16k/8k).  
+Each stripe has two 4k data blocks, in total 16k. 
+Each stripe has one 4k parity block, in total 8k. 
+That gets us to 24k in total to store 16k. 
+Storage efficiency is 66%, as expected.
 
 #### RAIDZ1 with 4 drives
+With 4 drives, we get a stripe 4 drives wide.  
+Each stripe has four three 4k data blocks and one 4k parity block.  
+For a volblock of 16k, we need 1.33 stripes (16k/12k).  
+The first stripe has three 4k data blocks, in total 12k.  
+The first stripe also has one 4k block for parity. 
+The second stripe has one 4k data block.  
+The second stripe also has one 4k block for parity.  
+In total we have four 4k data blocks and two 4k parity blocks. 
+That gets us to 24k in total to store 16k. 
+Storage efficiency is 66%. 
+We would have naturally expected a storage efficiency of 75%!  
 
 #### RAIDZ2 with 6 drives
-
-
 
 ### volblocksize 64k
 This size often gets recommended in the forums by users.  
