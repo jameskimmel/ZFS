@@ -88,9 +88,6 @@ Smaller volblocksize is good for random workloads, has less IO amplification, le
 For the following examples, we assume ashift = 12 or 4k, because that is the default for modern drives. 
 We look at the different volblocksizes and how they behave on different pools. 
 
-### volblocksize 8k
-This is the proxmox default size.  
-
 ### volblocksize 16k
 This is the default size for openZFS since 2.2.  
 
@@ -117,9 +114,4 @@ Storage efficiency is 66%.
 We would have naturally expected a storage efficiency of 75%!  
 
 #### RAIDZ2 with 6 drives
-
-### volblocksize 64k
-This size often gets recommended in the forums by users.  
-
-
 
