@@ -73,6 +73,26 @@ We wrote 8k in blocks to store a 4k file.
 This is the same storage efficiency we would expect from a mirror.
 It doesn't apply to you, if you have a 3-wide RAIDZ1 and only write files where the size is a multiple of 8k. For huge files like pictures, movies, and songs, the efficiency loss for not being exactly a multiple of 8k, the loss gets negligible.
 
+## ZVOL and volblocksize
+For Proxmox we mostly don't use datasets though. We use VMs with RAW disks that are stored on a Zvol.  
+For Zvols and their fixed volblocksize, it gets more complicated.  
+
+As far as I understand it, in the early days, the default volblocksize was 8k and it was recommended to turn off compression. This was due to Solaris using 8k.  
+Nowadays, it is recommended to enable compression and the current default is 16k since v2.2. Still not the default in Proxmox though. Some people in the forum recommend going as high as 64k on SSDs.
+
+In theory, you wanna have writes that exactly match your volblocksize.  
+For MySQL or MariaDB, this would be 16k. But because you can't predict compression, and compression works very well for stuff like MySQL?, you don't actually get a 16k write (or is it stored on a 16k volblocksize, but that blocksize itself can be compressed?)?.  
+A larger volblocksize is good mostly sequential workloads and can gain compression efficiency.  
+Smaller volblocksize is good for random workloads, has less IO amplification, less fragmentation, but will use more metadata and have worse space efficiency.  
+
+### volblocksize 8k
+This is the proxmox default size.  
+
+### volblocksize 16k
+This is the default size for openZFS since 2.2.  
+
+### volblocksize 64k
+This size often gets recommended in the forums by users.  
 
 
 
