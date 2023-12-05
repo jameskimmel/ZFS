@@ -91,6 +91,14 @@ This is the proxmox default size.
 ### volblocksize 16k
 This is the default size for openZFS since 2.2.  
 
+#### RAIDZ1 with 3 drives
+
+#### RAIDZ1 with 4 drives
+
+#### RAIDZ2 with 6 drives
+
+
+
 ### volblocksize 64k
 This size often gets recommended in the forums by users.  
 
