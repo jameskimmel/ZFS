@@ -77,7 +77,7 @@ It doesn't apply to you, if you have a 3-wide RAIDZ1 and only write files where 
 For Proxmox we mostly don't use datasets though. We use VMs with RAW disks that are stored on a Zvol.  
 For Zvols and their fixed volblocksize, it gets more complicated.  
 
-As far as I understand it, in the early days, the default volblocksize was 8k and it was recommended to turn off compression. This was due to Solaris using 8k.  
+In the early days, the default volblocksize was 8k and it was recommended to turn off compression.
 Nowadays, it is recommended to enable compression and the current default is 16k since v2.2. Still not the default in Proxmox though. Some people in the forum recommend going as high as 64k on SSDs.
 
 In theory, you wanna have writes that exactly match your volblocksize.  
