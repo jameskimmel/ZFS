@@ -113,5 +113,3 @@ That gets us to 24k in total to store 16k.
 Storage efficiency is 66%. 
 We would have naturally expected a storage efficiency of 75%!  
 
-#### RAIDZ2 with 6 drives
-
