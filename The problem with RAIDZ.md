@@ -4,7 +4,7 @@ This text focuses on Proxmox, but it generally applies to all ZFS systems.
 
 ## TLDR
 RAIDZ is only great for sequential reads and writes of big files. An example of that would be a fileserver that mostly hosts big files. 
-For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get and also will perform badly. 
+For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get and also it will perform badly. 
 
 ## Introduction and glossary
 Before we start, we have to learn about some ZFS glossary. These are important to understand the examples later on.
