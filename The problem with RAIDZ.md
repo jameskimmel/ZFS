@@ -1,4 +1,5 @@
 # The problem with RAIDZ or why you probably won't get the storage efficiency you think you will get.
+Work in progress, probably contains errors!
 As a ZFS rookie, I struggled a fair bit to find out what settings I should use for my Proxmox hypervisor. Hopefully, this could help other ZFS rookies. 
 This text focuses on Proxmox, but it generally applies to all ZFS systems. 
 
@@ -26,7 +27,7 @@ Recordsize applies to datasets. ZFS datasets use by default a recordsize of 128K
 
 ### volblocksize:
 Zvols have a volblocksize property that is analogous to recordsize.
-Since openZFS v2.2 the default value is 16k, while Proxmox 8.1 still uses 8k as default.
+Since openZFS v2.2 the default value is 16k. It used to be 8k.
 
 Now with that technical stuff out of the way, let's look at real-life examples.
 
@@ -78,31 +79,31 @@ For Proxmox we mostly don't use datasets though. We use VMs with RAW disks that 
 For Zvols and their fixed volblocksize, it gets more complicated.  
 
 In the early days, the default volblocksize was 8k and it was recommended to turn off compression.
-Nowadays, it is recommended to enable compression and the current default is 16k since v2.2. Still not the default in Proxmox though. Some people in the forum recommend going as high as 64k on SSDs.
+Nowadays, it is recommended to enable compression and the current default is 16k since v2.2. Some people in the forum even recommend going as high as 64k on SSDs.
 
 In theory, you wanna have writes that exactly match your volblocksize.  
-For MySQL or MariaDB, this would be 16k. But because you can't predict compression, and compression works very well for stuff like MySQL?, you don't actually get a 16k write (or is it stored on a 16k volblocksize, but that blocksize itself can be compressed?)?.  
-A larger volblocksize is good mostly sequential workloads and can gain compression efficiency.  
+For MySQL or MariaDB, this would be 16k. But because you can't predict compression, and compression works very well for stuff like MySQL, you can't really predict the size of writes.  
+A larger volblocksize is good for mostly sequential workloads and can gain compression efficiency.  
 Smaller volblocksize is good for random workloads, has less IO amplification, less fragmentation, but will use more metadata and have worse space efficiency.  
 
 For the following examples, we assume ashift = 12 or 4k, because that is the default for modern drives. 
-We look at the different volblocksizes and how they behave on different pools. 
+We look at the different volblocksizes and how they behave on different pools.
 
 ### volblocksize 16k
 This is the default size for openZFS since 2.2.  
 
 #### RAIDZ1 with 3 drives
 With 3 drives, we get a stripe 3 drives wide.  
-Each stripe has four two 4k data blocks and one 4k parity block.  
-For a volblock of 16k, we need two stripes (16k/8k).  
-Each stripe has two 4k data blocks, in total 16k. 
-Each stripe has one 4k parity block, in total 8k. 
+Each stripe has two 4k data blocks (8k) and one 4k parity block.  
+For a volblock of 16k, we need two stripes (16k/8k = 2).  
+Each stripe has two 4k data blocks, two stripes are in total 16k. 
+Each stripe has one 4k parity block, two stripes are in total 8k. 
 That gets us to 24k in total to store 16k. 
-Storage efficiency is 66%, as expected.
+Storage efficiency is 66%, as expected.  
 
 #### RAIDZ1 with 4 drives
 With 4 drives, we get a stripe 4 drives wide.  
-Each stripe has four three 4k data blocks and one 4k parity block.  
+But not all stripes have three 4k data blocks (12k) and one 4k parity block.  
 For a volblock of 16k, we need 1.33 stripes (16k/12k).  
 The first stripe has three 4k data blocks, in total 12k.  
 The first stripe also has one 4k block for parity. 
@@ -110,6 +111,74 @@ The second stripe has one 4k data block.
 The second stripe also has one 4k block for parity.  
 In total we have four 4k data blocks and two 4k parity blocks.  
 That gets us to 24k in total to store 16k.  
-Storage efficiency is 66%. 
-We would have naturally expected a storage efficiency of 75%!  
+We expected a storage efficiency of 75%, but only got 66%!
+
+#### RAIDZ2 with 6 drives
+With 6 drives, we get a stripe 6 drives wide.  
+Each stripe has four 4k data blocks and two 4k parity blocks.  
+For a volblock of 16k, we need one stripe (16k/16k = 1).  
+That gets us to 24k in total to store 16k.  
+Storage efficiency is 66%, as expected.  
+
+#### RAIDZ2 with 8 drives
+With 8 drives, we get a stripe 6 drives wide.   
+This is because we don't need 8 drives to store 16k.
+Each stripe has four 4k data blocks and two 4k parity blocks.  
+For a volblock of 16k, we need one stripe (16k/16k = 1).  
+That gets us to 24k in total to store 16k.  
+We expected a storage efficiency of 75%, but only got 66%!
+
+### volblocksize 64k
+Some users in the forums recommend 64k on SSDs.
+
+#### RAIDZ1 with 3 drives
+With 3 drives, we get a stripe 3 drives wide.  
+Each stripe has two 4k data blocks (8k) and one 4k parity block.  
+For a volblock of 64k, we need eight stripes (64k/8k = 8).  
+Each stripe has two 4k data blocks, eight stripes are in total 64k. 
+Each stripe has one 4k parity block, eight stripes are in total 32k. 
+That gets us to 96k in total to store 64k. 
+Storage efficiency is 66%, as expected.  
+
+#### RAIDZ1 with 4 drives
+With 4 drives, we get a stripe 4 drives wide.  
+But not all stripes have three 4k data blocks (12k) and one 4k parity block.  
+For a volblock of 64k, we need 5.33 stripes (64k/12k).  
+Five stripes have three 4k data blocks, in total 60k.  
+Five stripes also have one 4k block for parity, in total 20k. 
+The sixth stripe has one 4k data block.  
+The sixth stripe also has one 4k block for parity.  
+In total we have sixteen 4k data blocks and six 4k parity blocks.  
+That gets us to 88k in total to store 64k.  
+We expected a storage efficiency of 75%, but only got 72.72%!
+
+#### RAIDZ2 with 6 drives
+With 6 drives, we get a stripe 6 drives wide.  
+Each stripe has four 4k data blocks and two 4k parity blocks.  
+For a volblock of 64k, we need four stripes (64k/16k = 4).  
+That gets us to 96k in total to store 64k.  
+Storage efficiency is 66%, as expected.  
+
+#### RAIDZ2 with 8 drives
+With 8 drives, we get a stripe 8 drives wide.  
+But not all stripes have six 4k data blocks (24k) and two 4k parity blocks.  
+For a volblock of 64k, we need 2.66 stripes (64k/24k).  
+Two stripes have six 4k data blocks, in total 48k.  
+Two stripes also have two 4k blocks for parity, in total 16k. 
+The third stripe has four 4k data blocks, in total 16k.  
+The third stripe also has two 4k blocks for parity.  
+In total we have 16 4k data blocks and six 4k parity blocks.  
+That gets us to 88k in total to store 64k.  
+We expected a storage efficiency of 75%, but only got 72.72%!
+
+## Conclusion
+Choosing the right pool geometry can help you with space efficency.
+Bigger volblocksizes offer better space efficency for pools that don't have an optimal geometry.
+Bigger volblocksizes will also offer better compression gains.
+But bigger volblocksizes will also suffer from read and write amplification and create more fragmentation. 
+A single 16k read from a DB will end up reading 64k from the drives. 
+Also keep in mind that all the these variants will only write as fast as the slowest disk in the group.
+Mirror has a worse storage efficiency, but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives. 
+
+
 
