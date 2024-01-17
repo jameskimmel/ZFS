@@ -7,7 +7,7 @@ RAIDZ is only great for sequential reads and writes of big files. An example of 
 For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get and also it will perform badly. 
 
 ## Introduction and glossary
-Before we start, we have to learn about some ZFS glossary. These are important to understand the examples later on.
+Before we start, some ZFS glossary. These are important to understand the examples later on.
 
 ### sector size:
 older HDDs used to have a sector size of 512b, while newer HDDs have 4k sectors. SSDs can have even bigger sectors, but their firmware controllers are mostly tuned for 4k sectors. There are still enterprise HDDs that come with 512e, where the "e" stands for emulation. These are not 512b but 4k drives, they only emulate to be 512. For this whole text, I assume that we have drives with 4k sectors.
