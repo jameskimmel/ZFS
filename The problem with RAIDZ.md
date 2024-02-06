@@ -5,7 +5,7 @@ This text focuses on Proxmox, but it generally applies to all ZFS systems.
 
 ## TLDR
 RAIDZ is only great for sequential reads and writes of big files. An example of that would be a fileserver that mostly hosts big files. 
-For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get and also it will perform badly. 
+For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get, and also it will perform badly. 
 
 ## Introduction and glossary
 Before we start, some ZFS glossary. These are important to understand the examples later on.
@@ -32,6 +32,7 @@ Since openZFS v2.2 the default value is 16k. It used to be 8k.
 Now with that technical stuff out of the way, let's look at real-life examples.
 
 ## Dataset example
+Datasets only apply to ISOs, container templates, and VZDump and are not really affected by the RAIDZ problem. You can skip this chapter, but maybe it helps with understanding. 
 Let's look at an example of a dataset with the default recordsize of 128k and how that would work. We assume that we want to store a file 128k in size (after compression).
 
 For a 3-disk wide RAIDZ1, the total stripe width is 3.
@@ -84,7 +85,7 @@ Nowadays, it is recommended to enable compression and the current default is 16k
 In theory, you wanna have writes that exactly match your volblocksize.  
 For MySQL or MariaDB, this would be 16k. But because you can't predict compression, and compression works very well for stuff like MySQL, you can't really predict the size of writes.  
 A larger volblocksize is good for mostly sequential workloads and can gain compression efficiency.  
-Smaller volblocksize is good for random workloads, has less IO amplification, less fragmentation, but will use more metadata and have worse space efficiency.  
+Smaller volblocksize is good for random workloads, has less IO amplification, and less fragmentation, but will use more metadata and have worse space efficiency.  
 
 For the following examples, we assume ashift = 12 or 4k, because that is the default for modern drives. 
 We look at the different volblocksizes and how they behave on different pools.
@@ -109,7 +110,7 @@ The first stripe has three 4k data blocks, in total 12k.
 The first stripe also has one 4k block for parity. 
 The second stripe has one 4k data block.  
 The second stripe also has one 4k block for parity.  
-In total we have four 4k data blocks and two 4k parity blocks.  
+In total, we have four 4k data blocks and two 4k parity blocks.  
 That gets us to 24k in total to store 16k.  
 We expected a storage efficiency of 75%, but only got 66%!
 
@@ -148,7 +149,7 @@ Five stripes have three 4k data blocks, in total 60k.
 Five stripes also have one 4k block for parity, in total 20k. 
 The sixth stripe has one 4k data block.  
 The sixth stripe also has one 4k block for parity.  
-In total we have sixteen 4k data blocks and six 4k parity blocks.  
+In total, we have sixteen 4k data blocks and six 4k parity blocks.  
 That gets us to 88k in total to store 64k.  
 We expected a storage efficiency of 75%, but only got 72.72%!
 
@@ -167,18 +168,16 @@ Two stripes have six 4k data blocks, in total 48k.
 Two stripes also have two 4k blocks for parity, in total 16k. 
 The third stripe has four 4k data blocks, in total 16k.  
 The third stripe also has two 4k blocks for parity.  
-In total we have 16 4k data blocks and six 4k parity blocks.  
+In total, we have 16 4k data blocks and six 4k parity blocks.  
 That gets us to 88k in total to store 64k.  
 We expected a storage efficiency of 75%, but only got 72.72%!
 
 ## Conclusion
-Choosing the right pool geometry can help you with space efficency.
-Bigger volblocksizes offer better space efficency for pools that don't have an optimal geometry.
+Choosing the right pool geometry can help you with space efficiency.
+Bigger volblocksizes offer better space efficiency for pools that don't have an optimal geometry.
 Bigger volblocksizes will also offer better compression gains.
 But bigger volblocksizes will also suffer from read and write amplification and create more fragmentation. 
 A single 16k read from a DB will end up reading 64k from the drives. 
-Also keep in mind that all the these variants will only write as fast as the slowest disk in the group.
-Mirror has a worse storage efficiency, but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives. 
-
-
+Also, keep in mind that all these variants will only write as fast as the slowest disk in the group.
+Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives. 
 
