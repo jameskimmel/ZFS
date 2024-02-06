@@ -179,5 +179,5 @@ Bigger volblocksizes will also offer better compression gains.
 But bigger volblocksizes will also suffer from read and write amplification and create more fragmentation. 
 A single 16k read from a DB will end up reading 64k from the drives. 
 Also, keep in mind that all these variants will only write as fast as the slowest disk in the group.
-Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives. 
+Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool 
 
