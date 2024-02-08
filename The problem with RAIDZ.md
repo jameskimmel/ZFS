@@ -2,6 +2,7 @@
 Work in progress, probably contains errors!
 As a ZFS rookie, I struggled a fair bit to find out what settings I should use for my Proxmox hypervisor. Hopefully, this could help other ZFS rookies. 
 This text focuses on Proxmox, but it generally applies to all ZFS systems. 
+**The whole text and tables assume ashift = 12 or 4k, because that is the default for modern drives.**
 
 ## TLDR
 RAIDZ is only great for sequential reads and writes of big files. An example of that would be a fileserver that mostly hosts big files. 
@@ -177,11 +178,6 @@ Efficiency tables for different number of drives, with 16k or 64k volblocksize a
 
 ## RAIDZ1
 
-|          | 3 disks | 4 disks | 5 disks | 6 disks | 7 disks | 8 disks | 9 disks | 10 disks | 11 disks | 12 disks |
-|----------|---------|---------|---------|---------|---------|---------|---------|----------|----------|----------|
-| 16k      | **66%**     | 66%     | 66%     | 66%     | 66%     | 66%     | 66%     | 66%      | 66%      | 66%      |
-| 64k      | **66%**     | 73%     | **80%**     | 80%     | 80%     | 80%     | **88%**     | 88%      | 88%      | 88%      |
-| expected | **66%**     | 75%     | **80%**     | 83%     | 85%     | 87%     | **88%**     | 90%      | 90%      | 91%      |
 
 ## RAIDZ2
 
