@@ -5,7 +5,7 @@ This text focuses on Proxmox, but it generally applies to all ZFS systems.
 
 ## TLDR
 RAIDZ is only great for sequential reads and writes of big files. An example of that would be a fileserver that mostly hosts big files. 
-For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get, and also it will perform badly. 
+For VMs or iSCSI, RAIDZ will not get you the storage efficiency you think you will get, and also it will perform badly. Use mirror instead. It is a pretty long text, but you can jump to the conlusion and to the efficency tables at the end. 
 
 ## Introduction and glossary
 Before we start, some ZFS glossary. These are important to understand the examples later on.
@@ -79,7 +79,7 @@ It doesn't apply to you, if you have a 3-wide RAIDZ1 and only write files where 
 For Proxmox we mostly don't use datasets though. We use VMs with RAW disks that are stored on a Zvol.  
 For Zvols and their fixed volblocksize, it gets more complicated.  
 
-In the early days, the default volblocksize was 8k and it was recommended to turn off compression.
+In the early days, the default volblocksize was 8k and it was recommended to turn off compression. Until very recently (2024) Proxmox used 8k with compression as default.
 Nowadays, it is recommended to enable compression and the current default is 16k since v2.2. Some people in the forum even recommend going as high as 64k on SSDs.
 
 In theory, you wanna have writes that exactly match your volblocksize.  
@@ -179,5 +179,17 @@ Bigger volblocksizes will also offer better compression gains.
 But bigger volblocksizes will also suffer from read and write amplification and create more fragmentation. 
 A single 16k read from a DB will end up reading 64k from the drives. 
 Also, keep in mind that all these variants will only write as fast as the slowest disk in the group.
-Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool 
+Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool.
 
+## efficiency tables
+Efficiency tables for different number of drives, with 16k or 64k volblocksize and what efficency you would naturally expect to get. When expectations match up, it is formatted in bold. To show you how bad the old 8k default was for efficiency, I also included a 8k collumn.
+
+## RAIDZ1
+
+|          | 3 disks | 4 disks | 5 disks | 6 disks | 7 disks | 8 disks | 9 disks | 10 disks | 11 disks | 12 disks |
+|----------|---------|---------|---------|---------|---------|---------|---------|----------|----------|----------|
+| 16k      | **66%**     | 66%     | 66%     | 66%     | 66%     | 66%     | 66%     | 66%      | 66%      | 66%      |
+| 64k      | **66%**     | 73%     | **80%**     | 80%     | 80%     | 80%     | **88%**     | 88%      | 88%      | 88%      |
+| expected | **66%**     | 75%     | **80%**     | 83%     | 85%     | 87%     | **88%**     | 90%      | 90%      | 91%      |
+
+## RAIDZ2
