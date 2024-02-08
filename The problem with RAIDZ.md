@@ -172,15 +172,6 @@ In total, we have 16 4k data blocks and six 4k parity blocks.
 That gets us to 88k in total to store 64k.  
 We expected a storage efficiency of 75%, but only got 72.72%!
 
-## Conclusion
-Choosing the right pool geometry can help you with space efficiency.
-Bigger volblocksizes offer better space efficiency for pools that don't have an optimal geometry.
-Bigger volblocksizes will also offer better compression gains.
-But bigger volblocksizes will also suffer from read and write amplification and create more fragmentation. 
-A single 16k read from a DB will end up reading 64k from the drives. 
-Also, keep in mind that all these variants will only write as fast as the slowest disk in the group.
-Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool.
-
 ## efficiency tables
 Efficiency tables for different number of drives, with 16k or 64k volblocksize and what efficency you would naturally expect to get. When expectations match up, it is formatted in bold.
 
@@ -193,3 +184,13 @@ Efficiency tables for different number of drives, with 16k or 64k volblocksize a
 | expected | **66%**     | 75%     | **80%**     | 83%     | 85%     | 87%     | **88%**     | 90%      | 90%      | 91%      |
 
 ## RAIDZ2
+
+
+## Conclusion
+Choosing the right pool geometry can help you with space efficiency.
+Bigger volblocksizes offer better space efficiency for pools that don't have an optimal geometry.
+Bigger volblocksizes will also offer better compression gains.
+But bigger volblocksizes will also suffer from read and write amplification and create more fragmentation. 
+A single 16k read from a DB will end up reading 64k from the drives. 
+Also, keep in mind that all these variants will only write as fast as the slowest disk in the group.
+Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool.
