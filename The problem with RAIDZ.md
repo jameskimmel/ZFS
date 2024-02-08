@@ -180,7 +180,11 @@ Efficiency tables for different number of drives, with 16k or 64k volblocksize a
 
 
 ## RAIDZ2
-
+|                  | 4 disks | 5 disks | 6 disks | 7 disks | 8 disks | 9 disks | 10 disks | 11 disks | 12 disks |
+|------------------|---------|---------|---------|---------|---------|---------|----------|----------|----------|
+| 16k volblocksize | 50%     | 57%     | 66%     | 66%     | 66%     | 66%     | 66%      | 66%      | 66%      |
+| 64k volblocksize | 50%     | 57%     | 66%     | 66%     | 72%     | 66%     | 80%      | 80%      | 80%      |
+| expected         | 50%     | 60%     | 66%     | 71%     | 75%     | 77%     | 80%      | 81%      | 83%      |
 
 ## Conclusion
 Choosing the right pool geometry can help you with space efficiency.
