@@ -182,7 +182,7 @@ Also, keep in mind that all these variants will only write as fast as the slowes
 Mirror has a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool.
 
 ## efficiency tables
-Efficiency tables for different number of drives, with 16k or 64k volblocksize and what efficency you would naturally expect to get. When expectations match up, it is formatted in bold. To show you how bad the old 8k default was for efficiency, I also included a 8k collumn.
+Efficiency tables for different number of drives, with 16k or 64k volblocksize and what efficency you would naturally expect to get. When expectations match up, it is formatted in bold.
 
 ## RAIDZ1
 
