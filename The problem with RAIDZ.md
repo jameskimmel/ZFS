@@ -42,43 +42,75 @@ Let's look at an example of a dataset with the default recordsize of 128k and ho
 
 For a 3-disk wide RAIDZ1, the total stripe width is 3.
 
-One stripe has 2 data blocks and 1 parity block. Each is 4k in size.  
-So one stripe has 8k data blocks and a 4k parity block.  
-To store a 128k file, we need 128k / 4k = 32 data blocks.  
-To store 32 data blocks, we need 32 data blocks / 2 data blocks per stripe = 16 stripes.   
-Or you could also say, that to store a 128k file, we need 128k / 8k data blocks = 16 stripes.  
-Each of these stripes consists of two 4k data blocks and a 4k parity block.  
-In total, we store 128k data blocks (16 stripes * 8k data blocks) and 64k parity blocks (16 stripes * 4k parity).  
-Data blocks + parity blocks = total blocks  
+One stripe has 2 data sectors and 1 parity sector. Each is 4k in size.  
+So one stripe has 8k data sectors and a 4k parity sector.  
+To store a 128k file, we need 128k / 4k = 32 data sectors.  
+To store 32 data sectors, each stripe has 2 data sectors, so we need 16 stripes in total.  
+Or you could also say, that to store a 128k file, we need 128k / 8k data sectors = 16 stripes.  
+Each of these stripes consists of two 4k data sectors and a 4k parity sector.  
+In total, we store 128k data sectors (16 stripes * 8k data sectors) and 64k parity sectors (16 stripes * 4k parity sectors).  
+Data sectors + parity sectors = total sectors  
 128k + 64k = 192k.  
-That means we write 192k in blocks to store a 128k file.  
+That means we write 192k to store 128k data.  
+192k is 48 sectors (192 / 4).  
+48 sectors is a multiple of 2, so there is no padding needed.  
 128k / 192k = 66.66% storage efficiency.  
 
-This is a best-case scenario. Just like one would expect from a 3-wide RAID5 or RAIDZ1, you "lose" a third of storage.
+This is a best-case scenario. Just like one would expect from a 3-wide RAID5 or RAIDZ1, you "lose" a third of storage.  
 
-Now, what happens if the file is smaller than the recordsize of 128? A 20k file?
+Now, what happens if the file is smaller than the recordsize of 128? A 20k file?  
 
-We calculate the same thing for our 20k file.  
-20k divided by 8k (2 data parts, each 4k) = 2.5 stripes. Half-data stripes are impossible. So we need 3 stripes to store our data.
-
-The first stripe has 8k data blocks and a 4k parity block.  
-The second stripe has 8k data blocks and a 4k parity block.  
+We do the same steps for our 20k file.  
+To store 20k, we need 20k / 4k = 5 data sectors.  
+To store 5 data sectors, each stripe has 2 data sectors, so we need 2,5 stripes in total.  
+Half-data stripes are impossible. That is why we need 3 stripes.  
+The first stripe has 8k data sectors and a 4k parity sector.  
+Same for the second stripe, 8k data sectors and a 4k parity sector.  
 The third stripe is special.  
-We already saved 16k of data in the first two blocks, so we only have 4k data left to save.  
-That is why the third stripe has a 4k data block and a 4k parity block.  
-Now the efficiency has changed. If we calculate all together, we wrote 20k data blocks, 12k parity blocks, and one 4k padding block.  
+We already saved 16k of data in the first two sectors, so we only need to save another 4k.  
+That is why the third stripe has a 4k data sector and a 4k parity sector.  
+In total, we store 20k data sectors (2 times 8k from the first two stripes and 4k from the third stripe) and 12k parity sectors (3 stripes with 4k).  
+20k + 12k = 32k.  
+That means we write 32k to store 20k data.  
+32k is 8 sectors (32 / 4).  
+8 sectors is a multiple of 2, so there is no padding needed.  
+
+The efficiency has changed. If we calculate all together, we wrote 20k data sectors, 12k parity sectors.  
 We wrote 32k to store a 20k file.  
 20k / 32k = 62.5% storage efficiency.  
+This is not what you intuitively would expect. We thought we would get 66.66%!  
 
-This is not what you intuitively would expect. What happens if the situation gets even worse and we wanna save a 4k file?
+We do the same steps for a 28k file.  
+To store 28k, we need 28k / 4k = 7 data sectors.  
+To store 7 data sectors, each stripe has 2 data sectors, so we need 3,5 stripes in total.  
+Half-data stripes are impossible. That is why we need 4 stripes.  
+The first three stripes have 8k data sectors and a 4k parity sector.  
+The forth stripe is special.  
+We already saved 24k of data in the first two sectors, so we only need to save another 4k.  
+That is why the forth stripe has a 4k data sector and a 4k parity sector.  
+In total, we store 28k data sectors (3 times 8k from the first three stripes and 4k from the forth stripe) and 16k parity sectors (4 stripes with 4k).  
+28k + 16k = 44k.  
+That means we write 44k to store 28k data.  
+44k is 11 sectors (44 / 4).  
+11 sectors is not a multiple of 2, so there is padding needed.  
+We need an extra 4k padding sector to get 12 sectors in total.  
+
+The efficiency has changed again. If we calculate all together, we wrote 28k data sectors, 16k parity sectors, and one 4k padding sector.  
+We wrote 48k to store a 28k file.  
+28k / 48k = 58.33% storage efficiency.  
+This is not what you intuitively would expect. We thought we would get 66.66%!  
+
+What happens if the situation gets even worse and we wanna save a 4k file?  
 
 We calculate the same thing for a 4k file.  
-We simply store a 4k data block on one disk and one parity block on another disk. In total, we wrote a 4k data block and a 4k parity block.  
-We wrote 8k in blocks to store a 4k file.  
+We simply store a 4k data sector on one disk and one parity sector on another disk. In total, we wrote a 4k data sector and a 4k parity sector.  
+We wrote 8k in sectors to store a 4k file.  
 4k / 8k = 50% storage efficiency.  
 
-This is the same storage efficiency we would expect from a mirror.
-It doesn't apply to you, if you have a 3-wide RAIDZ1 and only write files where the size is a multiple of 8k. For huge files like pictures, movies, and songs, the efficiency loss for not being exactly a multiple of 8k, the loss gets negligible.
+This is the same storage efficiency we would expect from a mirror!  
+
+**Conclusion for datasets:**  
+If you have a 3-wide RAIDZ1 and only write huge files like pictures, movies, and songs, the efficiency loss gets negligible. For 4k files, RAIDZ1 only offers the same storage efficiency as mirror.  
 
 ## ZVOL and volblocksize
 For Proxmox we mostly don't use datasets though. We use VMs with RAW disks that are stored on a Zvol.  
