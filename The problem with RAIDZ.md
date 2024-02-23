@@ -100,7 +100,7 @@ We wrote 48k to store a 28k file.
 28k / 48k = 58.33% storage efficiency.  
 This is not what you intuitively would expect. We thought we would get 66.66%!  
 
-What happens if the situation gets even worse and we wanna save a 4k file?  
+What happens if we wanna save a 4k file?  
 
 We calculate the same thing for a 4k file.  
 We simply store a 4k data sector on one disk and one parity sector on another disk. In total, we wrote a 4k data sector and a 4k parity sector.  
