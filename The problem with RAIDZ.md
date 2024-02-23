@@ -36,7 +36,7 @@ To avoid these gaps, ZFS will pad out all writes so they’re an even multiple o
 
 With that technical stuff out of the way, let's look at real examples :)
 
-## Dataset example
+## Dataset
 Datasets only apply to ISOs, container templates, and VZDump and are not really affected by the RAIDZ problem. You can skip this chapter, but maybe it helps with understanding. 
 Let's look at an example of a dataset with the default recordsize of 128k and how that would work. We assume that we want to store a file 128k in size (after compression).
 
@@ -182,41 +182,41 @@ With 4 drives, we get a stripe 4 drives wide.
 Each stripe has two 4k data sectors and two 4k parity sectors.  
 For a volblock of 16k, we need two stripe (16k/8k = 2).  
 That gets us to 32k in total to store 16k.  
-32k is 8 sectors and that can't be devided by 3 so there is padding needed.
-We need another padding sector to get to 9 sectors total.
-9 sectors can be devided by 3.
+32k is 8 sectors and that can't be devided by 3 so there is padding needed.  
+We need another padding sector to get to 9 sectors total.  
+9 sectors can be devided by 3.  
 That gets us to 36k in total to store 16k.  
 We expected a storage efficiency of 50%, but only got 44.44%!  
 Why would you do that? That is WORSE than mirror!  
 
-#### RAIDZ2 with 5 drives
+#### RAIDZ2 with 5 drives  
 With 5 drives, we get a stripe 5 drives wide.  
 Each stripe has three 4k data sectors and two 4k parity sectors.  
 For a volblock of 16k, we need 1.33 stripes (16k/12k).  
 The first stripe has three 4k data sectors, in total 12k.  
-The first stripe also has two 4k sectors for parity. 
+The first stripe also has two 4k sectors for parity.  
 The second stripe has one 4k data sector.  
 The second stripe also has two 4k sectors for parity.  
 In total, we have four 4k data sectors and four 4k parity sectors.  
 That gets us to 32k in total to store 16k.  
-32k is 8 sectors and that can't be devided by 3 so there is padding needed.
-We need another padding sector to get to 9 sectors total.
-9 sectors can be devided by 3.
-That gets us to 36k in total to store 16k.  
-We expected a storage efficiency of 60%, but only got 44.44%!
+32k is 8 sectors and that can't be devided by 3 so there is padding needed.  
+We need another padding sector to get to 9 sectors total.  
+9 sectors can be devided by 3.  
+That gets us to 36k in total to store 16k.   
+We expected a storage efficiency of 60%, but only got 44.44%!  
 
-#### RAIDZ2 with 6 drives
+#### RAIDZ2 with 6 drives  
 With 6 drives, we get a stripe 6 drives wide.  
 Each stripe has four 4k data sectors and two 4k parity sectors.  
 For a volblock of 16k, we need one stripe (16k/16k = 1).  
 That gets us to 24k in total to store 16k.  
-24k is 6 sectors and that can be devided by 3 so there is no padding needed.
-We expected a storage efficiency of 66.66%, and got 66.66%!
+24k is 6 sectors and that can be devided by 3 so there is no padding needed.  
+We expected a storage efficiency of 66.66%, and got 66.66%!  
 
 #### RAIDZ2 with 10 drives
 With 10 drives, we get a stripe 6 drives wide.   
 This is because we don't need 10 drives to store 16k.  
-It also behaves exactly as with 6 drives.  
+It also behaves exactly as with 6 drives.   
 Each stripe has four 4k data blocks and two 4k parity blocks.  
 For a volblock of 16k, we need one stripe (16k/16k = 1).  
 That gets us to 24k in total to store 16k.  
