@@ -175,7 +175,7 @@ That gets us to 20k in total to store 16k.
 That gets us to 24k in total to store 16k.  
 We expected a storage efficiency of 90%, but only got 66%!  
 
-**Notice something? Even with making the RAIDZ wider, there are no efficency gain beyond 5 drives. This is because we can't make the stripe any wider, no matter how wide we make your RAIDZ1. This is very different from a traditional RAID!**
+**Notice something? No matter how wide we make the RAIDZ1, there are no efficency gains beyond 5 drives. This is because we can't make the stripe any wider, no matter how wide we make your RAIDZ1. Because of padding, even switching from 4 to 5 drives wide does not make a difference.**
 
 #### RAIDZ2 with 6 drives
 With 6 drives, we get a stripe 6 drives wide.  
