@@ -131,10 +131,10 @@ This is the default size for openZFS since 2.2.
 #### RAIDZ1 with 3 drives
 With 3 drives, we get a stripe that is 3 drives wide.  
 Each stripe has two 4k data sectors (8k) and one 4k parity sector.  
-For a volblock of 16k, we need two stripes (16k/8k = 2).  
+For a volblock of 16k, we need two stripes, because one stripe stores 8k data and two stripes will store the needed 16k (16k/8k).  
 Each stripe has two 4k data sectors, two stripes are in total 16k. 
-Each stripe has one 4k parity sector, two stripes are in total 8k. 
-That gets us to 24k in total to store 16k. 
+Each stripe has one 4k parity sector, two stripes are in total 8k.  
+That gets us to 24k in total to store 16k.  
 24k is 8 sectors and that can be devided by 2 so there is no padding needed.  
 Storage efficiency is 66%, as expected.  
 
