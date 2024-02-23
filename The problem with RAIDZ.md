@@ -30,7 +30,11 @@ Recordsize applies to datasets. ZFS datasets use by default a recordsize of 128K
 Zvols have a volblocksize property that is analogous to recordsize.
 Since openZFS v2.2 the default value is 16k. It used to be 8k.
 
-Now with that technical stuff out of the way, let's look at real-life examples.
+### padding:
+ZFS allocates space on RAIDZ vdevs in even multiples of p+1 sectors to prevent unusable-small gaps on the disk. p is the number of parity, so for RAIDZ1 this would be 1+1=2, for RAIDZ2 this would be 2+1=3,for RAIDZ3 this would be 3+1=4.
+To avoid these gaps, ZFS will pad out all writes so they’re an even multiple of this p+1 value. Padding is not really writing something on the disk, just leave these secotors out.
+
+With that technical stuff out of the way, let's look at real examples :)
 
 ## Dataset example
 Datasets only apply to ISOs, container templates, and VZDump and are not really affected by the RAIDZ problem. You can skip this chapter, but maybe it helps with understanding. 
