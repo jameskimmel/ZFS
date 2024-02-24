@@ -226,7 +226,7 @@ We expected a storage efficiency of 80%, but only got 66%!
 ### volblocksize 64k
 Some users in the forums recommend 64k on SSDs.  
 I am no VM expert by any means, but there are still a lot of workloads that are smaller than 64k.  
-I would recommend to use volblocksize 64k with caution. You will could get huge read write amplification and fragmentation.  
+I would recommend using volblocksize 64k with caution. You will could get huge read-write amplification and fragmentation.  
 
 #### RAIDZ1 with 3 drives
 With 3 drives, we get a stripe 3 drives wide.  
@@ -331,7 +331,7 @@ We expected a storage efficiency of 80%, but only got 76.19%!
 The same problem applies to all RAIDZ between 10 and 17 drives wide!  
 
 ## efficiency tables
-Efficiency tables for different number of drives, with 16k or 64k volblocksize and what efficiency you would naturally expect to get. When expectations match up, it is formatted in bold.
+Efficiency tables for different numbers of drives, with 16k or 64k volblocksize, and what efficiency you would naturally expect to get. When expectations match up, it is formatted in bold.  
 
 ## RAIDZ1
 
@@ -351,7 +351,7 @@ Efficiency tables for different number of drives, with 16k or 64k volblocksize a
 ## Conclusion
 RAIDZ is different from traditional RAID and often has worse storage efficiency than expected.  
 Bigger volblocksizes offer better space efficiency and compression gains, 
-will also suffer from read and write amplification and create more fragmentation. 
+but will also suffer from read and write amplification and create more fragmentation. 
 Also, keep in mind that all these variants will only write as fast as the slowest disk in the pool.
 Mirrors have a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool.  
 Use mirrors for Zvol and RAIDZ for huge, sequential files.
