@@ -349,9 +349,9 @@ Efficiency tables for different number of drives, with 16k or 64k volblocksize a
 | expected | 50%      | 60%      | **66.66%** | 71.42%   | 75%      | 77.77%   | 80%       | 81.81%    | 83.33%    | 84.61%    | 85.71%    | 87.5%     | 88.23%    | **88.88%** |
 
 ## Conclusion
-Unlike traditional RAID, space efficiency is often not as good as we intuitivly susbect for RAIDZ. 
+RAIDZ is different from traditional RAID and often has worse storage efficiency than expected.  
 Bigger volblocksizes offer better space efficiency and compression gains, 
 will also suffer from read and write amplification and create more fragmentation. 
-A single 16k read from a DB will end up reading 64k from the drives. 
 Also, keep in mind that all these variants will only write as fast as the slowest disk in the pool.
 Mirrors have a worse storage efficiency but will offer twice the write performance with 4 drives and 4 times the write performance with 8 drives over a RAIDZ pool.  
+Use mirrors for Zvol and RAIDZ for huge, sequential files.
