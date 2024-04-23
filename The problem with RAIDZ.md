@@ -1,8 +1,8 @@
 # The problem with RAIDZ or why you probably won't get the storage efficiency you think you will get.
-Work in progress, probably contains errors!
 As a ZFS rookie, I struggled a fair bit to find out what settings I should use for my Proxmox hypervisor. Hopefully, this could help other ZFS rookies. 
-This text focuses on Proxmox, but it generally applies to all ZFS systems. 
-**The whole text and tables assume ashift = 12 or 4k, because that is the default for modern drives.**
+This text focuses on Proxmox, but it generally applies to all ZFS systems.
+
+**The whole documents assumes ashift to be the default 12 or 4k, because that is the default for modern drives.**
 
 ## TLDR
 RAIDZ is only great for sequential reads and writes of big files. An example of that would be a fileserver that mostly hosts big files.  
