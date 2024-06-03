@@ -4,7 +4,7 @@ https://wintelguy.com/raidmttdl.pl
 
 But in the reliability calculator, there is one thing missing from the equation. 
 The calculator assumes drive failures based on MTBF. 
-While this isn't wrong, it is missing something variables from the real world. We will get into that later.  
+While this isn't wrong, it is missing some real world variables. We will get into that later.  
 
 For now, let us look, at the calculated probability of data loss.
 I tried to fill it with variables that represent home lab users. 
