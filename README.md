@@ -1,1 +1,1 @@
-Just random stuff about ZFS
+Colleciton of random stuff about ZFS :)
