@@ -43,7 +43,7 @@ For the mirror everything is fine.
 I know I don't have any real hard evidence numbers to compare that with the calculator. It is to show that the calculator has its blindspots and is not able to model all variables of a real-world system. And that you really should get drives from different batches :)
 
 If you wanna dive deeper into these numbers and like to have some fun with assumptions that I just pull out of thin air, 
-[here is what I wrote in the TrueNAS forums](https://duckduckgo.com)
+[here is what I wrote in the TrueNAS forums]([https://duckduckgo.com](https://forums.truenas.com/t/raid-reliability-calculators-blindspot/5781/12))
 
 Hi jro, thanks for taking the time.
 
