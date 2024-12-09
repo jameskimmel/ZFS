@@ -2,7 +2,7 @@ Copied from here  https://forum.opnsense.org/index.php?topic=44259.msg221025#msg
 
 Mostly agree, altough I still think it can be usefull for detection. 
 
-
+Here is a copy of the message:
 
 1. Trying to exaustively "enumerate badness" is bound to fail.
 
