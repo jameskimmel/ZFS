@@ -58,8 +58,8 @@ If possible, always use a cable connection.
 *Where should I place my repeater?*
 
 Let us look at the typical errors I see when people install a mesh node. For simplicity, we leave out 2,4GHz.
+![308574243-34f24712-8576-4b58-b5b5-a9cdb634c768-2](https://github.com/user-attachments/assets/f248e61a-d871-4d13-8a59-a40858f3dcc2)
 
-![Unbenanntes Diagramm drawio](https://github.com/jameskimmel/Wi-Fi/assets/17176225/34f24712-8576-4b58-b5b5-a9cdb634c768)
 
 What we see is the router on the left and how good the signal quality is in other rooms. 
 Now if we install a repeater in the room3, the signal the repeater gets would be poor. But since the iPhone in the garden is one wall away from that repeater, it would show a good signal. 
