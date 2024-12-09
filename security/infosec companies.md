@@ -1,4 +1,4 @@
-At the Enigma 2017 conference this week, the chief technical director of GCHQ's National Cyber Security Centre has rebuked infosec companies for spreading fear, uncertainty and doubt about hackers to sell products.
+At the Enigma 2017 conference, the chief technical director of GCHQ's National Cyber Security Centre has rebuked infosec companies for spreading fear, uncertainty and doubt about hackers to sell products.
 
 “We are allowing massively incentivised companies to define the public perception of the problem,” he said.  
 
@@ -7,5 +7,6 @@ At the Enigma 2017 conference this week, the chief technical director of GCHQ's 
 It’s medieval witchcraft, it’s genuinely medieval witchcraft.”
 
 He pointed out that a UK telco had recently been taken offline using a SQL injection flaw that was older than the hacker alleged to have used it. 
+
 
 Copied from this article: https://www.theregister.com/2017/02/03/security_threat_solutions/
