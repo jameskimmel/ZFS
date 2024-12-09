@@ -40,8 +40,7 @@ In your example this is 192.168.1.2, 192.168.1.3, 192.168.1.4.
 But these IPs are only internal! If any of these devices connect to the internet, from the outside they all have the IP IPv4 215.84.156.8.  
 No matter if you play a game on PSN or visit reddit on your PC.  
 
-![image](https://github.com/jameskimmel/network-stuff/assets/17176225/62b3c6d6-e402-48e3-8363-f4f65afc53bb)
-
+![343792134-62b3c6d6-e402-48e3-8363-f4f65afc53bb](https://github.com/user-attachments/assets/c540d3fe-5b1b-4874-9fc7-f250175bc244)
 
 
 Now, imagine that you want to setup OpenVPN Server on your NAS. OpenVPN uses by default port 1194.  
@@ -75,7 +74,7 @@ That is why you have two hops to 215.84.156.8 and not one.
 
 With CG-NAT VPN Server is impossible. Imagine your phone trying to connect to 215.84.156.8 on port 1194. The router of your ISP has no idea where to route that. To you? Or your neighbor? Unless your ISP assigns a specific port just to you (I never heard of an ISP actually doing that) the traffic stops there. That is what is often called double NAT, since there is NAT on your ISPs routers and on your router before the traffic could potentially reach you. 
 
-![cg-NAT](https://github.com/jameskimmel/network-stuff/assets/17176225/0611202f-f8da-4a07-b8e6-3debaf92e29a)
+![343807383-0611202f-f8da-4a07-b8e6-3debaf92e29a](https://github.com/user-attachments/assets/4bb3a31a-543a-48c4-82fd-17d50712eb7c)
 
 ## What can you do about it?
 
