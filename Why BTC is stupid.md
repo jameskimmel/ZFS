@@ -61,9 +61,11 @@ That is a zero sum game.
 
 BTC is even worse. BTC is a negative sum game because of mining using real power in the real world, that costs real money. 
 
-So in the first step, instead of us Picasso just giving the 20 pictures to John, he woudl only give a picture to someone who is willing to burn a 10$ bill.  
-And for ever transaction, even the last one where Stewie sends one picture as a birthday gift to Peter, a small part of the picture would be destroyed during the transaction. 
-Peter would only get 90% or 0.9 dog drawings. 
+So in the first step, instead of us Picasso just giving the 20 pictures to John, he would only give a picture to someone who is willing to burn a 5$ bill for each drawing.  
+If we do the same transactions in that scenario, at the end we have this:
+![5 drawio](https://github.com/user-attachments/assets/1184c319-bfda-467f-987b-e0565f0d5369)
+
+We have 400$ in total and 20 drawings. Sure, Peter has double the money but the in total it was a net negative. 
 
 This is a very simplistic example and BTC works a little bit different in reality, but the main point is still true, BTC is a negative sum game. 
 
