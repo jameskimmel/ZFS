@@ -24,6 +24,12 @@ Take a look at the Samsung 850 EVO and compare that to the Intel S3510.
 On paper the 850 EVO is advertised with 98,000 IOPS while the S3510 is only advertised for 20,000 IOPS.
 The Evo can only handle the load for a few seconds (and only if the drive has enough free space, so it can use pseudo SLC cache) until the performance will heavily drop. 
 
+To compare your drive against these numbers run: 
+```bash
+fio --ioengine=libaio --filename=/dev/sdx --direct=1 --sync=1 --rw=write --bs=4K
+--numjobs=1 --iodepth=1 --runtime=60 --time_based --name=fio
+```
+
 That is why for SLOG enterprise PLP drives are recommended. Not because of security.
 
 
