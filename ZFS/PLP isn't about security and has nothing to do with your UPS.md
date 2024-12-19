@@ -11,6 +11,10 @@ it can't make use of it for sync writes. DRAM is volatile, if the system halts f
 Now lets look at a PLP SSD. This SSD will report back to the system that a sync write is done, when in reality the write is still in DRAM and not NAND. Why does this drive basically lie about the write?  
 It is because the drive has PLP. PLP is a combination of firmware and hardware but basically there are capacitors that help the drive finish the write even when the power is gone. 
 
+So no, PLP is NOT added security. PLP protects the "lying about cache" part, a "problem" that drive created for itself to gain performance. 
+Saying that PLP is "added security" is like putting a turbo on your engine and control it via software and then claim you added security to your engine.  
+No, you protected your engine from a source of failure that wasn't there to begin with.  
+
 With that knowlege, it is easy to understand why none PLP perform so poorly compared to PLP drives. 
 Take a look at the Samsung 850 EVO and compare that to the Intel S3510.
 
