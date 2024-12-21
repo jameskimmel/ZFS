@@ -54,3 +54,5 @@ Newest ones at the bottom.
 - Solarwinds Web Help Desk hardcoded password: https://support.solarwinds.com/SuccessCenter/s/article/SolarWinds-Web-Help-Desk-12-8-3-Hotfix-2
 
 -  IBM Security Verify Access Appliance hardcoded password: https://www.ibm.com/support/pages/security-bulletin-multiple-security-vulnerabilities-were-found-ibm-security-verify-access-appliance-cve-2024-49803-cve-2024-49804-cve-2024-49805-cve-2024-49806
+
+- FortiWLM remote code injection. Researcher Zach Hanley discovered and disclosed the vulnerability to Fortinet in May 2023. However, the flaw remained unfixed ten months later, and Hanley decided to disclose information and a POC it on March 14, 2024 in a technical writeup about other Fortinet flaws he discovered. https://nvd.nist.gov/vuln/detail/CVE-2023-34990
